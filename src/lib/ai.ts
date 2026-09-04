@@ -245,6 +245,53 @@ export interface AIResponse {
   parsedDayTasks?: ParsedDayTask[];
 }
 
+function parseTimeQuery(text: string): { hour: number; minute: number } | null {
+  const lower = text.toLowerCase().trim();
+
+  const hmMatch = lower.match(/(\d{1,2}):(\d{2})/);
+  if (hmMatch) {
+    const h = parseInt(hmMatch[1]);
+    const m = parseInt(hmMatch[2]);
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return { hour: h, minute: m };
+  }
+
+  const hMatch = lower.match(/(\d{1,2})\s*(h|hs|horas|hr)\b/);
+  if (hMatch) {
+    const h = parseInt(hMatch[1]);
+    if (h >= 0 && h <= 23) return { hour: h, minute: 0 };
+  }
+
+  const ampmMatch = lower.match(/(\d{1,2})(?::(\d{2}))?\s*(da\s*(manhã|manha|tarde|noite)|am|pm)/);
+  if (ampmMatch) {
+    let h = parseInt(ampmMatch[1]);
+    const m = ampmMatch[2] ? parseInt(ampmMatch[2]) : 0;
+    const suffix = ampmMatch[3] ?? ampmMatch[5];
+    if (suffix.includes('tarde') || suffix.includes('noite') || suffix === 'pm') {
+      if (h < 12) h += 12;
+    } else if (suffix.includes('manhã') || suffix.includes('manha') || suffix === 'am') {
+      if (h === 12) h = 0;
+    }
+    if (h >= 0 && h <= 23 && m >= 0 && m <= 59) return { hour: h, minute: m };
+  }
+
+  const periodMap: Record<string, { hour: number; minute: number }> = {
+    'manhã': { hour: 9, minute: 0 }, 'manha': { hour: 9, minute: 0 },
+    'tarde': { hour: 14, minute: 0 },
+    'noite': { hour: 19, minute: 0 },
+  };
+  for (const [word, time] of Object.entries(periodMap)) {
+    if (lower.includes(`pela ${word}`) || lower.includes(`de ${word}`) || lower.includes(`no ${word}`) || lower.includes(`na ${word}`)) {
+      return time;
+    }
+  }
+
+  return null;
+}
+
+function formatTimeLabel(hour: number, minute: number): string {
+  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+}
+
 export function askAssistant(question: string, tasks: Task[]): AIResponse {
   const lower = question.toLowerCase().trim();
 
@@ -257,6 +304,55 @@ export function askAssistant(question: string, tasks: Task[]): AIResponse {
     return {
       text: `Entendi! Vou criar ${parsedDayTasks.length} tarefa(s) no seu planejador do dia:\n\n${lines.join('\n')}\n\nCriando agora...`,
       parsedDayTasks,
+    };
+  }
+
+  const timeQuery = parseTimeQuery(question);
+  if (timeQuery && (lower.includes('tarefa') || lower.includes('fazer') || lower.includes('tenho') || lower.includes('marcado') || lower.includes('agendad'))) {
+    const queryTime = timeQuery.hour * 60 + timeQuery.minute;
+    const timeLabel = formatTimeLabel(timeQuery.hour, timeQuery.minute);
+
+    const withTime = tasks.filter((t) => t.due_time && t.status === 'pendente');
+    const periodOnly = tasks.filter((t) => !t.due_time && t.status === 'pendente' && t.planned_period);
+
+    const matching: Task[] = [];
+
+    for (const t of withTime) {
+      const [h, m] = t.due_time!.split(':').map(Number);
+      const taskMinutes = h * 60 + m;
+      if (Math.abs(taskMinutes - queryTime) <= 30) {
+        matching.push(t);
+      }
+    }
+
+    let periodMatch: 'manha' | 'tarde' | 'noite' | null = null;
+    if (timeQuery.hour < 12) periodMatch = 'manha';
+    else if (timeQuery.hour < 18) periodMatch = 'tarde';
+    else periodMatch = 'noite';
+
+    for (const t of periodOnly) {
+      if (t.planned_period === periodMatch) {
+        matching.push(t);
+      }
+    }
+
+    if (matching.length === 0) {
+      return { text: `Não há tarefas agendadas para próximo de ${timeLabel}.\n\nVocê pode adicionar tarefas com horário específico ao criá-las, ou usar o planejador por período (manhã, tarde, noite).` };
+    }
+
+    const lines = matching.map((t, i) => {
+      const parts = [`${i + 1}. ${t.title}`];
+      if (t.due_time) parts.push(`às ${t.due_time}`);
+      else if (t.planned_period) {
+        const pl = t.planned_period === 'manha' ? 'manhã' : t.planned_period;
+        parts.push(`(${pl})`);
+      }
+      if (t.priority === 'urgente' || t.priority === 'alta') parts.push(`— ${t.priority}`);
+      return parts.join(' ');
+    });
+
+    return {
+      text: `Aqui estão suas tarefas para próximo de ${timeLabel}:\n\n${lines.join('\n')}\n\nVocê tem ${matching.length} tarefa(s) nesse horário.`,
     };
   }
 
@@ -330,6 +426,6 @@ export function askAssistant(question: string, tasks: Task[]): AIResponse {
   }
 
   return {
-    text: `Posso ajudar com:\n\n• "O que eu devo fazer hoje?"\n• "Quais tarefas devo priorizar?"\n• "Quais tarefas estão atrasadas?"\n• "Organize meu dia."\n• "Divida essa tarefa em etapas menores."\n• "Há conflitos de prazo?"\n• "Dicas de produtividade"\n• "Resumo das minhas tarefas"\n\nPergunte em português e eu analisarei suas tarefas.`,
+    text: `Posso ajudar com:\n\n• "O que eu devo fazer hoje?"\n• "Quais tarefas devo priorizar?"\n• "Quais tarefas estão atrasadas?"\n• "Organize meu dia."\n• "Que tarefas tenho às 14:00?"\n• "O que tenho marcado pela tarde?"\n• "Divida essa tarefa em etapas menores."\n• "Há conflitos de prazo?"\n• "Dicas de produtividade"\n• "Resumo das minhas tarefas"\n\nPergunte em português e eu analisarei suas tarefas.`,
   };
 }
