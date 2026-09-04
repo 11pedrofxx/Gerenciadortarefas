@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CheckSquare, Mail, Lock, ArrowRight, Sparkles, Calendar, BarChart3, Bot } from 'lucide-react';
+import { CheckSquare, Mail, Lock, User, ArrowRight, Sparkles, Calendar, BarChart3, Bot } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { Spinner } from '@/components/ui';
@@ -10,13 +10,15 @@ export function AuthScreen() {
   const { signIn, signUp, resetPassword } = useAuth();
   const { showToast } = useToast();
   const [mode, setMode] = useState<Mode>('login');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
 
   const validate = () => {
     const e: typeof errors = {};
+    if (mode === 'signup' && !name.trim()) e.name = 'Nome é obrigatório';
     if (!email) e.email = 'E-mail é obrigatório';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'E-mail inválido';
     if (mode !== 'reset' && !password) e.password = 'Senha é obrigatória';
@@ -37,7 +39,7 @@ export function AuthScreen() {
           showToast('Bem-vindo de volta!', 'success');
         }
       } else if (mode === 'signup') {
-        const { error } = await signUp(email, password);
+        const { error } = await signUp(email, password, name.trim());
         if (error) {
           showToast(error === 'User already registered' ? 'Este e-mail já está cadastrado.' : error, 'error');
         } else {
@@ -117,6 +119,22 @@ export function AuthScreen() {
           </p>
 
           <div className="space-y-4">
+            {mode === 'signup' && (
+              <div>
+                <div className="relative">
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <input
+                    type="text"
+                    className="input pl-11"
+                    placeholder="Seu nome"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
+                  />
+                </div>
+                {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
+              </div>
+            )}
             <div>
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />

@@ -60,7 +60,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
   }, [stats]);
 
   const suggestedOrder = useMemo(() => suggestTaskOrder(tasks).slice(0, 4), [tasks]);
-  const userName = user?.email?.split('@')[0] ?? 'usuário';
+  const userName = user?.user_metadata?.name ?? user?.email?.split('@')[0] ?? 'usuário';
 
   const statCards = [
     { label: 'Total', value: stats.total, icon: Calendar, color: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-100 dark:bg-slate-800' },

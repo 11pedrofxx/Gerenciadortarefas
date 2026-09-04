@@ -27,10 +27,10 @@ export function Settings() {
         </h3>
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center text-white text-xl font-bold">
-            {(user?.email ?? 'U')[0].toUpperCase()}
+            {(user?.user_metadata?.name ?? user?.email ?? 'U')[0].toUpperCase()}
           </div>
           <div>
-            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{user?.email ?? 'Usuário'}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{user?.user_metadata?.name ?? user?.email ?? 'Usuário'}</p>
             <p className="text-xs text-slate-400 dark:text-slate-500">Conta pessoal</p>
           </div>
         </div>
