@@ -1,4 +1,4 @@
-import type { Priority, Task } from '@/types';
+import type { Priority, Task, PlannedPeriod } from '@/types';
 import { daysUntil, isOverdue, todayString } from '@/lib/date';
 
 export interface AISuggestion {
@@ -170,13 +170,96 @@ export function suggestTaskOrder(tasks: Task[]): Task[] {
     });
 }
 
+export interface ParsedDayTask {
+  title: string;
+  period: PlannedPeriod;
+  category?: string;
+}
+
+export function parseDayMessage(text: string): ParsedDayTask[] {
+  const lower = text.toLowerCase();
+  if (!lower.includes('dia:') && !lower.includes('dia ') && !lower.includes('manhã') && !lower.includes('manha') && !lower.includes('tarde') && !lower.includes('noite')) {
+    return [];
+  }
+
+  const periodMap: Record<string, PlannedPeriod> = {
+    'manhã': 'manha', 'manha': 'manha',
+    'tarde': 'tarde',
+    'noite': 'noite',
+  };
+
+  const periodLabels = ['manhã', 'manha', 'tarde', 'noite'];
+  const tasks: ParsedDayTask[] = [];
+
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+
+  let currentPeriod: PlannedPeriod | null = null;
+
+  for (const line of lines) {
+    const lineLower = line.toLowerCase();
+
+    let foundPeriod = false;
+    for (const label of periodLabels) {
+      if (lineLower.includes(label)) {
+        currentPeriod = periodMap[label];
+        foundPeriod = true;
+        break;
+      }
+    }
+
+    if (foundPeriod) {
+      const afterColon = line.split(':').slice(1).join(':').trim();
+      if (afterColon) {
+        const items = afterColon.split('+').map((s) => s.trim()).filter(Boolean);
+        for (const item of items) {
+          const cat = detectCategory(item);
+          tasks.push({ title: capitalize(item), period: currentPeriod!, category: cat });
+        }
+      }
+      continue;
+    }
+
+    if (currentPeriod) {
+      const afterColon = line.includes(':') ? line.split(':').slice(1).join(':').trim() : line;
+      if (afterColon) {
+        const items = afterColon.split('+').map((s) => s.trim()).filter(Boolean);
+        for (const item of items) {
+          const cat = detectCategory(item);
+          tasks.push({ title: capitalize(item), period: currentPeriod, category: cat });
+        }
+      }
+    }
+  }
+
+  if (tasks.length === 0) return [];
+  return tasks;
+}
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 export interface AIResponse {
   text: string;
   actions?: { label: string; taskId?: string }[];
+  parsedDayTasks?: ParsedDayTask[];
 }
 
 export function askAssistant(question: string, tasks: Task[]): AIResponse {
   const lower = question.toLowerCase().trim();
+
+  const parsedDayTasks = parseDayMessage(question);
+  if (parsedDayTasks.length > 0) {
+    const lines = parsedDayTasks.map((t) => {
+      const periodLabel = t.period === 'manha' ? 'Manhã' : t.period === 'tarde' ? 'Tarde' : 'Noite';
+      return `• ${periodLabel}: ${t.title}${t.category ? ` (${t.category})` : ''}`;
+    });
+    return {
+      text: `Entendi! Vou criar ${parsedDayTasks.length} tarefa(s) no seu planejador do dia:\n\n${lines.join('\n')}\n\nCriando agora...`,
+      parsedDayTasks,
+    };
+  }
+
   const pending = tasks.filter((t) => t.status === 'pendente');
   const overdue = tasks.filter((t) => isOverdue(t));
   const today = tasks.filter((t) => t.due_date === todayString() && t.status === 'pendente');
