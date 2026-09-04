@@ -33,7 +33,7 @@ const PAGE_TITLES: Record<Page, string> = {
 };
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, loading, passwordRecovery } = useAuth();
   const [page, setPage] = useState<Page>('dashboard');
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [taskFormOpen, setTaskFormOpen] = useState(false);
@@ -87,7 +87,7 @@ function AppContent() {
     );
   }
 
-  if (!user) {
+  if (!user || passwordRecovery) {
     return <AuthScreen />;
   }
 

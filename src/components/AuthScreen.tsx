@@ -1,28 +1,48 @@
-import { useState } from 'react';
-import { CheckSquare, Mail, Lock, User, ArrowRight, Sparkles, Calendar, BarChart3, Bot } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { CheckSquare, Mail, Lock, User, ArrowRight, Sparkles, Calendar, BarChart3, Bot, ShieldCheck, KeyRound } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { Spinner } from '@/components/ui';
 
-type Mode = 'login' | 'signup' | 'reset';
+type Mode = 'login' | 'signup' | 'verify' | 'reset' | 'newpassword';
 
 export function AuthScreen() {
-  const { signIn, signUp, resetPassword } = useAuth();
+  const { signIn, signUp, resetPassword, sendOtp, verifyOtp, updatePassword, passwordRecovery, clearPasswordRecovery } = useAuth();
   const { showToast } = useToast();
   const [mode, setMode] = useState<Mode>('login');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    if (passwordRecovery) {
+      setMode('newpassword');
+    }
+  }, [passwordRecovery]);
 
   const validate = () => {
-    const e: typeof errors = {};
+    const e: Record<string, string> = {};
     if (mode === 'signup' && !name.trim()) e.name = 'Nome é obrigatório';
-    if (!email) e.email = 'E-mail é obrigatório';
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'E-mail inválido';
-    if (mode !== 'reset' && !password) e.password = 'Senha é obrigatória';
-    else if (mode !== 'reset' && password.length < 6) e.password = 'Mínimo de 6 caracteres';
+    if (mode !== 'verify' && mode !== 'newpassword') {
+      if (!email) e.email = 'E-mail é obrigatório';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = 'E-mail inválido';
+    }
+    if (mode === 'login' || mode === 'signup') {
+      if (!password) e.password = 'Senha é obrigatória';
+      else if (password.length < 6) e.password = 'Mínimo de 6 caracteres';
+    }
+    if (mode === 'verify') {
+      if (!code.trim()) e.code = 'Código é obrigatório';
+      else if (!/^\d{6}$/.test(code.trim())) e.code = 'Digite os 6 dígitos';
+    }
+    if (mode === 'newpassword') {
+      if (!newPassword) e.newPassword = 'Senha é obrigatória';
+      else if (newPassword.length < 6) e.newPassword = 'Mínimo de 6 caracteres';
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -43,17 +63,74 @@ export function AuthScreen() {
         if (error) {
           showToast(error === 'User already registered' ? 'Este e-mail já está cadastrado.' : error, 'error');
         } else {
-          showToast('Conta criada com sucesso! Bem-vindo!', 'success');
+          showToast('Código enviado para seu e-mail!', 'success');
+          setMode('verify');
         }
-      } else {
+      } else if (mode === 'verify') {
+        const { error } = await verifyOtp(email, code.trim());
+        if (error) {
+          showToast(error === 'Invalid or expired token' ? 'Código inválido ou expirado.' : error, 'error');
+        } else {
+          showToast('E-mail verificado! Bem-vindo!', 'success');
+        }
+      } else if (mode === 'reset') {
         const { error } = await resetPassword(email);
         if (error) showToast(error, 'error');
-        else showToast('E-mail de recuperação enviado!', 'success');
-        setMode('login');
+        else {
+          showToast('E-mail de recuperação enviado! Verifique sua caixa de entrada.', 'success');
+          setMode('login');
+        }
+      } else if (mode === 'newpassword') {
+        const { error } = await updatePassword(newPassword);
+        if (error) {
+          showToast(error, 'error');
+        } else {
+          showToast('Senha atualizada com sucesso!', 'success');
+          clearPasswordRecovery();
+          setNewPassword('');
+        }
       }
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleResendCode = async () => {
+    setLoading(true);
+    try {
+      const { error } = await sendOtp(email);
+      if (error) {
+        showToast(error, 'error');
+      } else {
+        showToast('Novo código enviado!', 'success');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const titles: Record<Mode, string> = {
+    login: 'Entrar',
+    signup: 'Criar conta',
+    verify: 'Verifique seu e-mail',
+    reset: 'Recuperar senha',
+    newpassword: 'Nova senha',
+  };
+
+  const subtitles: Record<Mode, string> = {
+    login: 'Acesse sua conta para continuar',
+    signup: 'Comece a organizar suas tarefas hoje',
+    verify: `Enviamos um código de 6 dígitos para ${email}`,
+    reset: 'Enviaremos um link para seu e-mail',
+    newpassword: 'Digite sua nova senha para acessar sua conta',
+  };
+
+  const buttonLabels: Record<Mode, string> = {
+    login: 'Entrar',
+    signup: 'Criar conta',
+    verify: 'Verificar código',
+    reset: 'Enviar link',
+    newpassword: 'Atualizar senha',
   };
 
   return (
@@ -112,10 +189,10 @@ export function AuthScreen() {
           </div>
 
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
-            {mode === 'login' ? 'Entrar' : mode === 'signup' ? 'Criar conta' : 'Recuperar senha'}
+            {titles[mode]}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-            {mode === 'login' ? 'Acesse sua conta para continuar' : mode === 'signup' ? 'Comece a organizar suas tarefas hoje' : 'Enviaremos um link para seu e-mail'}
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 break-words">
+            {subtitles[mode]}
           </p>
 
           <div className="space-y-4">
@@ -135,22 +212,25 @@ export function AuthScreen() {
                 {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
               </div>
             )}
-            <div>
-              <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
-                <input
-                  type="email"
-                  className="input pl-11"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
-                />
-              </div>
-              {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
-            </div>
 
-            {mode !== 'reset' && (
+            {mode !== 'verify' && mode !== 'newpassword' && (
+              <div>
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <input
+                    type="email"
+                    className="input pl-11"
+                    placeholder="seu@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
+                  />
+                </div>
+                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+              </div>
+            )}
+
+            {(mode === 'login' || mode === 'signup') && (
               <div>
                 <div className="relative">
                   <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
@@ -167,10 +247,48 @@ export function AuthScreen() {
               </div>
             )}
 
+            {mode === 'verify' && (
+              <div>
+                <div className="relative">
+                  <ShieldCheck className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    maxLength={6}
+                    className="input pl-11 text-center text-lg tracking-[0.5em] font-semibold"
+                    placeholder="000000"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
+                    autoFocus
+                  />
+                </div>
+                {errors.code && <p className="text-xs text-red-500 mt-1">{errors.code}</p>}
+              </div>
+            )}
+
+            {mode === 'newpassword' && (
+              <div>
+                <div className="relative">
+                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <input
+                    type="password"
+                    className="input pl-11"
+                    placeholder="Nova senha"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') handleSubmit(); }}
+                    autoFocus
+                  />
+                </div>
+                {errors.newPassword && <p className="text-xs text-red-500 mt-1">{errors.newPassword}</p>}
+              </div>
+            )}
+
             <button onClick={handleSubmit} disabled={loading} className="btn-primary w-full py-3">
               {loading ? <Spinner className="h-5 w-5" /> : (
                 <>
-                  {mode === 'login' ? 'Entrar' : mode === 'signup' ? 'Criar conta' : 'Enviar link'}
+                  {buttonLabels[mode]}
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
@@ -199,11 +317,31 @@ export function AuthScreen() {
                 </button>
               </p>
             )}
+            {mode === 'verify' && (
+              <>
+                <p>
+                  Não recebeu o código?{' '}
+                  <button onClick={handleResendCode} disabled={loading} className="text-green-600 dark:text-green-400 font-medium hover:underline disabled:opacity-50">
+                    Reenviar código
+                  </button>
+                </p>
+                <p className="mt-3">
+                  <button onClick={() => setMode('login')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
+                    Voltar para login
+                  </button>
+                </p>
+              </>
+            )}
             {mode === 'reset' && (
               <p>
                 <button onClick={() => setMode('login')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
                   Voltar para login
                 </button>
+              </p>
+            )}
+            {mode === 'newpassword' && (
+              <p className="text-xs">
+                Após atualizar sua senha, você será redirecionado para o app.
               </p>
             )}
           </div>
