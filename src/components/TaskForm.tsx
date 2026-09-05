@@ -269,7 +269,7 @@ export function TaskForm({ open, onClose, editingTask, defaultDate, defaultPerio
           {tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-2">
               {tags.map((t) => (
-                <span key={t} className="badge bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                <span key={t} className="badge bg-slate-100 dark:bg-[#1c1c1c] text-slate-600 dark:text-slate-300">
                   {t}
                   <button onClick={() => setTags(tags.filter((x) => x !== t))}><X className="h-3 w-3" /></button>
                 </span>
@@ -303,7 +303,7 @@ export function TaskForm({ open, onClose, editingTask, defaultDate, defaultPerio
             className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all ${
               isRecurring
                 ? 'border-green-500 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                : 'border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300'
+                : 'border-slate-200 dark:border-[#303030] text-slate-600 dark:text-slate-300'
             }`}
           >
             <Repeat className="h-4 w-4" />
@@ -334,7 +334,7 @@ export function TaskForm({ open, onClose, editingTask, defaultDate, defaultPerio
           {subtasks.length > 0 && (
             <div className="space-y-1.5 mt-2">
               {subtasks.map((s, i) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800/50">
+                <div key={i} className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-[#1c1c1c]/50">
                   <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
                   <span className="text-sm text-slate-600 dark:text-slate-300 flex-1">{s}</span>
                   <button onClick={() => setSubtasks(subtasks.filter((_, idx) => idx !== i))} className="text-slate-400 hover:text-red-500">

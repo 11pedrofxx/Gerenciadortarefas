@@ -179,7 +179,7 @@ export function AuthScreen() {
       </div>
 
       {/* Right panel - form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-slate-50 dark:bg-slate-950">
+      <div className="flex-1 flex items-center justify-center p-6 bg-slate-50 dark:bg-black">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-2.5 mb-8 justify-center">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center">

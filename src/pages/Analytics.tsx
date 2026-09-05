@@ -209,7 +209,7 @@ export function Analytics() {
                   <span className="text-sm text-slate-600 dark:text-slate-300">{labels[priority]}</span>
                   <span className="text-xs text-slate-400 dark:text-slate-500">{data.completed}/{data.total} • {rate}%</span>
                 </div>
-                <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-200 dark:bg-[#1c1c1c] rounded-full overflow-hidden">
                   <div className={`h-full ${colors[priority]} rounded-full transition-all duration-500`} style={{ width: `${rate}%` }} />
                 </div>
               </div>

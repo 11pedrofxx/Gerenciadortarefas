@@ -16,7 +16,7 @@ export function TopBar({ title, onMenu, onNavigate, onNewTask }: TopBarProps) {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <header className="sticky top-0 z-30 glass border-b border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-30 glass border-b border-slate-200 dark:border-[#2a2a2a]">
       <div className="flex items-center justify-between px-4 lg:px-6 h-16">
         <div className="flex items-center gap-3">
           <button onClick={onMenu} className="lg:hidden p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-[#242424] transition-colors">

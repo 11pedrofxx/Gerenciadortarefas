@@ -70,10 +70,10 @@ export function AIAssistant({ open, onClose }: { open: boolean; onClose: () => v
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
-      <div className="absolute inset-0 bg-slate-900/50 dark:bg-slate-950/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-slate-900/50 dark:bg-black/70 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full sm:max-w-lg h-[80vh] sm:h-[600px] card rounded-t-2xl sm:rounded-2xl flex flex-col overflow-hidden animate-slide-up">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-green-600 to-violet-600">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-[#2a2a2a] bg-gradient-to-r from-green-600 to-violet-600">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
               <Bot className="h-5 w-5 text-white" />
@@ -89,14 +89,14 @@ export function AIAssistant({ open, onClose }: { open: boolean; onClose: () => v
         </div>
 
         {/* Messages */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 dark:bg-slate-950">
+        <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50 dark:bg-black">
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-slide-up`}>
               <div
                 className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
                   msg.role === 'user'
                     ? 'bg-green-600 text-white rounded-br-md'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-bl-md border border-slate-200 dark:border-slate-700'
+                    : 'bg-white dark:bg-[#1c1c1c] text-slate-700 dark:text-slate-200 rounded-bl-md border border-slate-200 dark:border-[#303030]'
                 }`}
               >
                 {msg.text.split('\n').map((line, j) => (
@@ -109,12 +109,12 @@ export function AIAssistant({ open, onClose }: { open: boolean; onClose: () => v
 
         {/* Quick prompts */}
         {messages.length <= 1 && (
-          <div className="px-4 pb-2 flex flex-wrap gap-2 bg-slate-50 dark:bg-slate-950">
+          <div className="px-4 pb-2 flex flex-wrap gap-2 bg-slate-50 dark:bg-black">
             {QUICK_PROMPTS.map((prompt) => (
               <button
                 key={prompt}
                 onClick={() => send(prompt)}
-                className="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-green-400 hover:text-green-600 dark:hover:text-green-400 transition-all"
+                className="text-xs px-3 py-1.5 rounded-full bg-white dark:bg-[#1c1c1c] border border-slate-200 dark:border-[#303030] text-slate-600 dark:text-slate-300 hover:border-green-400 hover:text-green-600 dark:hover:text-green-400 transition-all"
               >
                 {prompt}
               </button>
@@ -123,7 +123,7 @@ export function AIAssistant({ open, onClose }: { open: boolean; onClose: () => v
         )}
 
         {/* Input */}
-        <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+        <div className="p-3 border-t border-slate-200 dark:border-[#2a2a2a] bg-white dark:bg-[#0b0b0b]">
           <div className="flex gap-2">
             <input
               className="input flex-1"
@@ -151,7 +151,7 @@ export function FloatingAssistantButton({ onClick }: { onClick: () => void }) {
       aria-label="Abrir assistente IA"
     >
       <Sparkles className="h-6 w-6 text-white group-hover:rotate-12 transition-transform" />
-      <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white dark:border-slate-950 animate-pulse" />
+      <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full border-2 border-white dark:border-black animate-pulse" />
     </button>
   );
 }

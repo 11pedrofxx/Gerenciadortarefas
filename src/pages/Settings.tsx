@@ -96,7 +96,7 @@ export function Settings() {
           ].map((shortcut) => (
             <div key={shortcut.keys} className="flex items-center justify-between">
               <span className="text-sm text-slate-600 dark:text-slate-300">{shortcut.action}</span>
-              <kbd className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-600 dark:text-slate-300">
+              <kbd className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-[#1c1c1c] border border-slate-200 dark:border-[#303030] text-xs font-mono text-slate-600 dark:text-slate-300">
                 {shortcut.keys}
               </kbd>
             </div>
@@ -143,7 +143,7 @@ function Toggle({ defaultOn }: { defaultOn: boolean }) {
   return (
     <button
       onClick={() => setOn(!on)}
-      className={`relative w-12 h-6 rounded-full transition-colors ${on ? 'bg-green-600' : 'bg-slate-300 dark:bg-slate-700'}`}
+      className={`relative w-12 h-6 rounded-full transition-colors ${on ? 'bg-green-600' : 'bg-slate-300 dark:bg-[#303030]'}`}
     >
       <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${on ? 'translate-x-6' : ''}`} />
     </button>
