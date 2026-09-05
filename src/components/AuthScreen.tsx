@@ -136,7 +136,7 @@ export function AuthScreen() {
   return (
     <div className="min-h-screen flex">
       {/* Left panel - branding */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-green-600 via-green-700 to-violet-700 relative overflow-hidden">
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-green-600 via-green-700 to-emerald-800 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-white blur-3xl" />
           <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-white blur-3xl" />
@@ -182,7 +182,7 @@ export function AuthScreen() {
       <div className="flex-1 flex items-center justify-center p-6 bg-slate-50 dark:bg-black">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-2.5 mb-8 justify-center">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center">
               <CheckSquare className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-xl font-bold text-slate-900 dark:text-white">TaskFlow</h1>

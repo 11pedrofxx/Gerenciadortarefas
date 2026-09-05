@@ -74,7 +74,7 @@ export function Sidebar({ current, onNavigate, onOpenAssistant, onNewTask }: Sid
       <div className="p-3">
         <button
           onClick={onOpenAssistant}
-          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-green-600 to-violet-600 text-white text-sm font-medium hover:shadow-lg transition-all"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white text-sm font-medium hover:shadow-lg transition-all"
         >
           <Sparkles className="h-4.5 w-4.5" />
           Assistente IA

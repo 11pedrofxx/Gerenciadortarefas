@@ -73,7 +73,7 @@ export function AIAssistant({ open, onClose }: { open: boolean; onClose: () => v
       <div className="absolute inset-0 bg-slate-900/50 dark:bg-black/70 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-full sm:max-w-lg h-[80vh] sm:h-[600px] card rounded-t-2xl sm:rounded-2xl flex flex-col overflow-hidden animate-slide-up">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-[#2a2a2a] bg-gradient-to-r from-green-600 to-violet-600">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-[#2a2a2a] bg-gradient-to-r from-green-600 to-emerald-500">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
               <Bot className="h-5 w-5 text-white" />
@@ -147,7 +147,7 @@ export function FloatingAssistantButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-20 lg:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-violet-600 shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center group"
+      className="fixed bottom-20 lg:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-500 shadow-lg hover:shadow-xl hover:scale-110 active:scale-95 transition-all flex items-center justify-center group"
       aria-label="Abrir assistente IA"
     >
       <Sparkles className="h-6 w-6 text-white group-hover:rotate-12 transition-transform" />

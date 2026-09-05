@@ -14,7 +14,7 @@ interface MyDayProps {
 const PERIODS: { id: PlannedPeriod; label: string; icon: typeof Sun; time: string; gradient: string }[] = [
   { id: 'manha', label: 'Manhã', icon: Sun, time: '06:00 - 12:00', gradient: 'from-amber-400 to-orange-400' },
   { id: 'tarde', label: 'Tarde', icon: Coffee, time: '12:00 - 18:00', gradient: 'from-green-400 to-cyan-400' },
-  { id: 'noite', label: 'Noite', icon: Moon, time: '18:00 - 23:00', gradient: 'from-violet-400 to-purple-500' },
+  { id: 'noite', label: 'Noite', icon: Moon, time: '18:00 - 23:00', gradient: 'from-emerald-400 to-teal-500' },
 ];
 
 export function MyDay({ onEditTask, onNewTask }: MyDayProps) {

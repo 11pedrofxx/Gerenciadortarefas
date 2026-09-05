@@ -54,7 +54,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
       result.push({ icon: TrendingUp, text: `Sua produtividade está em ${stats.productivity}%. Continue!`, color: 'text-amber-600 dark:text-amber-400' });
     }
     if (stats.highPriority.length > 2) {
-      result.push({ icon: Sparkles, text: `Você tem ${stats.highPriority.length} tarefas de alta prioridade. Considere usar o assistente IA para organizar.`, color: 'text-violet-600 dark:text-violet-400' });
+      result.push({ icon: Sparkles, text: `Você tem ${stats.highPriority.length} tarefas de alta prioridade. Considere usar o assistente IA para organizar.`, color: 'text-emerald-600 dark:text-emerald-400' });
     }
     return result;
   }, [stats]);
@@ -183,7 +183,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
             onClick={onOpenAssistant}
             className="w-full card p-3 flex items-center gap-3 hover:border-green-300 dark:hover:border-green-700 transition-colors group"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
             <div className="flex-1 text-left">

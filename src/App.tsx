@@ -81,7 +81,7 @@ function AppContent() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-black">
         <div className="flex flex-col items-center gap-3">
           <Spinner className="h-8 w-8 text-green-600" />
-          <p className="text-sm text-slate-500 dark:text-slate-400">Carregando TaskFlow...</p>
+          <p className="text-sm text-zinc-400 dark:text-slate-400">Carregando TaskFlow...</p>
         </div>
       </div>
     );
@@ -104,12 +104,12 @@ function AppContent() {
       {/* Mobile sidebar drawer */}
       {mobileSidebarOpen && (
         <div className="lg:hidden fixed inset-0 z-50 animate-fade-in">
-          <div className="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" onClick={() => setMobileSidebarOpen(false)} />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setMobileSidebarOpen(false)} />
           <div className="absolute left-0 top-0 bottom-0 w-64 bg-white dark:bg-[#0b0b0b] border-r border-slate-200 dark:border-[#2a2a2a] animate-slide-in-right overflow-y-auto">
             <div className="flex items-center justify-between px-4 py-4 border-b border-slate-200 dark:border-[#2a2a2a]">
-              <span className="text-sm font-semibold text-slate-900 dark:text-white">Menu</span>
+              <span className="text-sm font-semibold text-zinc-100">Menu</span>
               <button onClick={() => setMobileSidebarOpen(false)} className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-[#242424]">
-                <X className="h-5 w-5 text-slate-500" />
+                <X className="h-5 w-5 text-zinc-400" />
               </button>
             </div>
             <MobileNav current={page} onNavigate={handleNavigate} onNewTask={handleNewTask} onOpenAssistant={() => { setAssistantOpen(true); setMobileSidebarOpen(false); }} />
@@ -188,7 +188,7 @@ function MobileNav({ current, onNavigate, onNewTask, onOpenAssistant }: {
           className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
             current === item.id
               ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#242424]'
+              : 'text-zinc-300 hover:bg-[#242424]'
           }`}
         >
           <span>{item.label}</span>
@@ -197,7 +197,7 @@ function MobileNav({ current, onNavigate, onNewTask, onOpenAssistant }: {
           )}
         </button>
       ))}
-      <button onClick={onOpenAssistant} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-violet-600 text-white text-sm font-medium mt-2">
+      <button onClick={onOpenAssistant} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white text-sm font-medium mt-2">
         Assistente IA
       </button>
     </div>

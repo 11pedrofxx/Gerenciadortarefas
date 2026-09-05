@@ -26,7 +26,7 @@ export function Settings() {
           <User className="h-4 w-4" /> Perfil
         </h3>
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center text-white text-xl font-bold">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white text-xl font-bold">
             {(user?.user_metadata?.name ?? user?.email ?? 'U')[0].toUpperCase()}
           </div>
           <div>
