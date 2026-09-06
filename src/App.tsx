@@ -22,7 +22,7 @@ import type { Task } from '@/types';
 import { X } from 'lucide-react';
 
 const PAGE_TITLES: Record<Page, string> = {
-  dashboard: 'Painel',
+  dashboard: 'Visão Geral',
   myday: 'Meu Dia',
   tasks: 'Tarefas',
   calendar: 'Calendário',
@@ -166,7 +166,7 @@ function MobileNav({ current, onNavigate, onNewTask, onOpenAssistant }: {
   const { notifications } = useTaskFromContext();
   const unreadCount = notifications.filter((n) => !n.read).length;
   const NAV_ITEMS: { id: Page; label: string }[] = [
-    { id: 'dashboard', label: 'Painel' },
+    { id: 'dashboard', label: 'Visão Geral' },
     { id: 'myday', label: 'Meu Dia' },
     { id: 'tasks', label: 'Tarefas' },
     { id: 'calendar', label: 'Calendário' },

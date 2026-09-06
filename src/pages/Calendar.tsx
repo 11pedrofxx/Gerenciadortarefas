@@ -38,7 +38,10 @@ export function Calendar({ onEditTask, onNewTask }: CalendarProps) {
     const d = new Date(currentDate);
     if (view === 'month') d.setMonth(d.getMonth() + dir);
     else if (view === 'week') d.setDate(d.getDate() + dir * 7);
-    else d.setDate(d.getDate() + dir);
+    else {
+      d.setDate(d.getDate() + dir);
+      setSelectedDate(dateToISO(d));
+    }
     setCurrentDate(d);
   };
 
