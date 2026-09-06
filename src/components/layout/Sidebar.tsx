@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 const NAV_ITEMS: { id: Page; label: string; icon: typeof LayoutDashboard }[] = [
-  { id: 'dashboard', label: 'Painel', icon: LayoutDashboard },
+  { id: 'dashboard', label: 'Visão Geral', icon: LayoutDashboard },
   { id: 'myday', label: 'Meu Dia', icon: Sun },
   { id: 'tasks', label: 'Tarefas', icon: ListTodo },
   { id: 'calendar', label: 'Calendário', icon: CalendarDays },

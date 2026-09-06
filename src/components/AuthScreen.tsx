@@ -64,7 +64,7 @@ export function AuthScreen() {
         if (error) {
           showToast(error === 'User already registered' ? 'Este e-mail já está cadastrado.' : error, 'error');
         } else {
-          showToast('Código enviado para seu e-mail!', 'success');
+          setCode('');
           setMode('verify');
         }
       } else if (mode === 'verify') {
@@ -121,7 +121,7 @@ export function AuthScreen() {
   const subtitles: Record<Mode, string> = {
     login: 'Acesse sua conta para continuar',
     signup: 'Comece a organizar suas tarefas hoje',
-    verify: `Enviamos um código de 6 dígitos para ${email}`,
+    verify: `Enviamos um código de 6 dígitos para ${email}. Digite-o abaixo para validar sua conta.`,
     reset: 'Enviaremos um link para seu e-mail',
     newpassword: 'Digite sua nova senha para acessar sua conta',
   };
