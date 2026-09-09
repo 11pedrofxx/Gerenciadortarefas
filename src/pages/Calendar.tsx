@@ -38,7 +38,10 @@ export function Calendar({ onEditTask, onNewTask }: CalendarProps) {
     const d = new Date(currentDate);
     if (view === 'month') d.setMonth(d.getMonth() + dir);
     else if (view === 'week') d.setDate(d.getDate() + dir * 7);
-    else d.setDate(d.getDate() + dir);
+    else {
+      d.setDate(d.getDate() + dir);
+      setSelectedDate(dateToISO(d));
+    }
     setCurrentDate(d);
   };
 
@@ -70,13 +73,13 @@ export function Calendar({ onEditTask, onNewTask }: CalendarProps) {
           <button onClick={() => navigate(1)} className="btn-ghost p-2"><ChevronRight className="h-5 w-5" /></button>
           <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 ml-2 capitalize">{headerLabel}</h3>
         </div>
-        <div className="flex gap-1 bg-slate-100 dark:bg-slate-800 rounded-xl p-1">
+        <div className="flex gap-1 bg-slate-100 dark:bg-[#1c1c1c] rounded-xl p-1">
           {(['day', 'week', 'month'] as View[]).map((v) => (
             <button
               key={v}
               onClick={() => setView(v)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize ${
-                view === v ? 'bg-white dark:bg-slate-900 text-green-600 dark:text-green-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'
+                view === v ? 'bg-white dark:bg-[#0b0b0b] text-green-600 dark:text-green-400 shadow-sm' : 'text-slate-500 dark:text-slate-400'
               }`}
             >
               {v === 'day' ? 'Dia' : v === 'week' ? 'Semana' : 'Mês'}
@@ -145,7 +148,7 @@ function MonthView({ currentDate, tasksByDate, selectedDate, onSelect }: {
               key={dateStr}
               onClick={() => onSelect(dateStr)}
               className={`aspect-square rounded-lg p-1 flex flex-col items-center justify-start transition-all relative ${
-                isSelected ? 'bg-green-600 text-white' : isToday ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                isSelected ? 'bg-green-600 text-white' : isToday ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300' : 'hover:bg-slate-100 dark:hover:bg-[#242424]'
               }`}
             >
               <span className={`text-xs font-medium ${isSelected ? 'text-white' : ''}`}>{day.getDate()}</span>
@@ -185,7 +188,7 @@ function WeekView({ currentDate, tasksByDate, selectedDate, onSelect }: {
             key={dateStr}
             onClick={() => onSelect(dateStr)}
             className={`rounded-xl p-2 min-h-24 flex flex-col items-center transition-all ${
-              isSelected ? 'bg-green-600 text-white' : isToday ? 'bg-green-50 dark:bg-green-900/30' : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+              isSelected ? 'bg-green-600 text-white' : isToday ? 'bg-green-50 dark:bg-green-900/30' : 'hover:bg-slate-100 dark:hover:bg-[#242424]'
             }`}
           >
             <span className="text-xs text-slate-400 dark:text-slate-500 capitalize">{weekdays[i]}</span>

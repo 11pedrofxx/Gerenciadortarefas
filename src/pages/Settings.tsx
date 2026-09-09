@@ -26,7 +26,7 @@ export function Settings() {
           <User className="h-4 w-4" /> Perfil
         </h3>
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center text-white text-xl font-bold">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center text-white text-xl font-bold">
             {(user?.user_metadata?.name ?? user?.email ?? 'U')[0].toUpperCase()}
           </div>
           <div>
@@ -96,7 +96,7 @@ export function Settings() {
           ].map((shortcut) => (
             <div key={shortcut.keys} className="flex items-center justify-between">
               <span className="text-sm text-slate-600 dark:text-slate-300">{shortcut.action}</span>
-              <kbd className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-slate-600 dark:text-slate-300">
+              <kbd className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-[#1c1c1c] border border-slate-200 dark:border-[#303030] text-xs font-mono text-slate-600 dark:text-slate-300">
                 {shortcut.keys}
               </kbd>
             </div>
@@ -143,7 +143,7 @@ function Toggle({ defaultOn }: { defaultOn: boolean }) {
   return (
     <button
       onClick={() => setOn(!on)}
-      className={`relative w-12 h-6 rounded-full transition-colors ${on ? 'bg-green-600' : 'bg-slate-300 dark:bg-slate-700'}`}
+      className={`relative w-12 h-6 rounded-full transition-colors ${on ? 'bg-green-600' : 'bg-slate-300 dark:bg-[#303030]'}`}
     >
       <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${on ? 'translate-x-6' : ''}`} />
     </button>

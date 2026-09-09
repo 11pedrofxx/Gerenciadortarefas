@@ -76,7 +76,7 @@ export function Analytics() {
   const statCards = [
     { label: 'Tarefas Concluídas', value: stats.completed, icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
     { label: 'Tarefas Criadas', value: stats.total, icon: Calendar, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30' },
-    { label: 'Taxa de Conclusão', value: `${stats.completionRate}%`, icon: TrendingUp, color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-100 dark:bg-violet-900/30' },
+    { label: 'Taxa de Conclusão', value: `${stats.completionRate}%`, icon: TrendingUp, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
     { label: 'Tarefas Atrasadas', value: stats.overdue, icon: AlertTriangle, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-100 dark:bg-red-900/30' },
   ];
 
@@ -137,8 +137,8 @@ export function Analytics() {
           </div>
         </div>
         <div className="card p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center">
-            <BarChart3 className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+          <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+            <BarChart3 className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
             <p className="text-xs text-slate-500 dark:text-slate-400">Tempo médio de conclusão</p>
@@ -184,7 +184,7 @@ export function Analytics() {
               <div key={h.hour} className="flex-1 flex flex-col items-center gap-1 group">
                 <div className="w-full flex items-end justify-center h-24">
                   <div
-                    className="w-full max-w-4 rounded-t-md bg-gradient-to-t from-violet-600 to-violet-400 transition-all duration-500"
+                    className="w-full max-w-4 rounded-t-md bg-gradient-to-t from-emerald-600 to-emerald-400 transition-all duration-500"
                     style={{ height: `${height}%` }}
                   />
                 </div>
@@ -209,7 +209,7 @@ export function Analytics() {
                   <span className="text-sm text-slate-600 dark:text-slate-300">{labels[priority]}</span>
                   <span className="text-xs text-slate-400 dark:text-slate-500">{data.completed}/{data.total} • {rate}%</span>
                 </div>
-                <div className="h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-200 dark:bg-[#1c1c1c] rounded-full overflow-hidden">
                   <div className={`h-full ${colors[priority]} rounded-full transition-all duration-500`} style={{ width: `${rate}%` }} />
                 </div>
               </div>

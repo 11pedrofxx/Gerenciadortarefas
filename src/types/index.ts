@@ -88,7 +88,7 @@ export const PRIORITY_LABELS: Record<Priority, string> = {
 };
 
 export const PRIORITY_COLORS: Record<Priority, { bg: string; text: string; border: string; dot: string }> = {
-  baixa: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-300', border: 'border-slate-200 dark:border-slate-700', dot: 'bg-slate-400' },
+  baixa: { bg: 'bg-slate-100 dark:bg-[#1c1c1c]', text: 'text-slate-600 dark:text-slate-300', border: 'border-slate-200 dark:border-[#303030]', dot: 'bg-slate-400' },
   media: { bg: 'bg-green-100 dark:bg-green-900/40', text: 'text-green-700 dark:text-green-300', border: 'border-green-200 dark:border-green-800', dot: 'bg-green-500' },
   alta: { bg: 'bg-amber-100 dark:bg-amber-900/40', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800', dot: 'bg-amber-500' },
   urgente: { bg: 'bg-red-100 dark:bg-red-900/40', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800', dot: 'bg-red-500' },

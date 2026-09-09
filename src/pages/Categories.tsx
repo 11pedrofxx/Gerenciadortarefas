@@ -106,7 +106,7 @@ export function Categories() {
                 <button
                   key={c}
                   onClick={() => setColor(c)}
-                  className={`w-8 h-8 rounded-lg transition-all ${color === c ? 'ring-2 ring-offset-2 dark:ring-offset-slate-900 scale-110' : ''}`}
+                  className={`w-8 h-8 rounded-lg transition-all ${color === c ? 'ring-2 ring-offset-2 dark:ring-offset-black scale-110' : ''}`}
                   style={{ backgroundColor: c, boxShadow: color === c ? `0 0 0 2px ${c}` : 'none' }}
                 />
               ))}
@@ -119,7 +119,7 @@ export function Categories() {
                 <button
                   key={name}
                   onClick={() => setIcon(name)}
-                  className={`aspect-square rounded-lg flex items-center justify-center transition-all ${icon === name ? 'bg-green-100 dark:bg-green-900/30 ring-2 ring-green-500' : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                  className={`aspect-square rounded-lg flex items-center justify-center transition-all ${icon === name ? 'bg-green-100 dark:bg-green-900/30 ring-2 ring-green-500' : 'bg-slate-100 dark:bg-[#1c1c1c] hover:bg-slate-200 dark:hover:bg-[#303030]'}`}
                 >
                   <Icon className="h-4 w-4 text-slate-600 dark:text-slate-300" />
                 </button>

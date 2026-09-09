@@ -54,7 +54,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
       result.push({ icon: TrendingUp, text: `Sua produtividade está em ${stats.productivity}%. Continue!`, color: 'text-amber-600 dark:text-amber-400' });
     }
     if (stats.highPriority.length > 2) {
-      result.push({ icon: Sparkles, text: `Você tem ${stats.highPriority.length} tarefas de alta prioridade. Considere usar o assistente IA para organizar.`, color: 'text-violet-600 dark:text-violet-400' });
+      result.push({ icon: Sparkles, text: `Você tem ${stats.highPriority.length} tarefas de alta prioridade. Considere usar o assistente IA para organizar.`, color: 'text-emerald-600 dark:text-emerald-400' });
     }
     return result;
   }, [stats]);
@@ -63,7 +63,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
   const userName = user?.user_metadata?.name ?? user?.email?.split('@')[0] ?? 'usuário';
 
   const statCards = [
-    { label: 'Total', value: stats.total, icon: Calendar, color: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-100 dark:bg-slate-800' },
+    { label: 'Total', value: stats.total, icon: Calendar, color: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-100 dark:bg-[#1c1c1c]' },
     { label: 'Concluídas', value: stats.completed, icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/30' },
     { label: 'Pendentes', value: stats.pending, icon: Clock, color: 'text-green-600 dark:text-green-400', bg: 'bg-green-100 dark:bg-green-900/30' },
     { label: 'Atrasadas', value: stats.overdue, icon: AlertTriangle, color: 'text-red-600 dark:text-red-400', bg: 'bg-red-100 dark:bg-red-900/30' },
@@ -113,7 +113,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
           <div className="flex-1 flex flex-col items-center justify-center">
             <div className="relative w-32 h-32 mb-4">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="50" fill="none" strokeWidth="10" className="stroke-slate-200 dark:stroke-slate-800" />
+                <circle cx="60" cy="60" r="50" fill="none" strokeWidth="10" className="stroke-slate-200 dark:stroke-[#303030]" />
                 <circle
                   cx="60" cy="60" r="50" fill="none" strokeWidth="10"
                   className="stroke-green-600 transition-all duration-700"
@@ -183,7 +183,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
             onClick={onOpenAssistant}
             className="w-full card p-3 flex items-center gap-3 hover:border-green-300 dark:hover:border-green-700 transition-colors group"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
             <div className="flex-1 text-left">
@@ -233,7 +233,7 @@ export function Dashboard({ onNavigate, onEditTask, onNewTask, onOpenAssistant }
             <div className="space-y-2">
               {recentActivity.map((task) => (
                 <div key={task.id} className="card p-3 flex items-center gap-3 cursor-pointer hover:shadow-md transition-shadow" onClick={() => onEditTask(task)}>
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${task.status === 'concluida' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-slate-800'}`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${task.status === 'concluida' ? 'bg-emerald-100 dark:bg-emerald-900/30' : 'bg-slate-100 dark:bg-[#1c1c1c]'}`}>
                     {task.status === 'concluida' ? <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" /> : <Clock className="h-4 w-4 text-slate-400" />}
                   </div>
                   <div className="flex-1 min-w-0">

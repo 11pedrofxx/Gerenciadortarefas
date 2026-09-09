@@ -89,7 +89,7 @@ export function TaskList({ onEditTask, onNewTask }: TaskListProps) {
             className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
               tab === t.id
                 ? 'bg-green-600 text-white shadow-sm'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                : 'bg-slate-100 dark:bg-[#1c1c1c] text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-[#303030]'
             }`}
           >
             {t.label}

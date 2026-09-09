@@ -7,7 +7,7 @@ export function Checkbox({ checked, onChange, className = '' }: { checked: boole
       className={`shrink-0 w-5 h-5 rounded-md border-2 transition-all duration-200 flex items-center justify-center ${
         checked
           ? 'bg-green-600 border-green-600'
-          : 'border-slate-300 dark:border-slate-600 hover:border-green-500'
+          : 'border-slate-300 dark:border-[#3a3a3a] hover:border-green-500'
       } ${className}`}
     >
       {checked && (
@@ -31,7 +31,7 @@ export function Spinner({ className = '' }: { className?: string }) {
 export function EmptyState({ icon, title, message, action }: { icon: React.ReactNode; title: string; message: string; action?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center animate-fade-in">
-      <div className="p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 mb-4 text-slate-400 dark:text-slate-500">
+      <div className="p-4 rounded-2xl bg-slate-100 dark:bg-[#1c1c1c] mb-4 text-slate-400 dark:text-slate-500">
         {icon}
       </div>
       <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-1">{title}</h3>
@@ -48,7 +48,7 @@ export function ProgressBar({ value, max = 100, className = '' }: { value: numbe
     return () => clearTimeout(t);
   }, [value, max]);
   return (
-    <div className={`h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden ${className}`}>
+    <div className={`h-2 bg-slate-200 dark:bg-[#1c1c1c] rounded-full overflow-hidden ${className}`}>
       <div
         className="h-full bg-green-600 rounded-full transition-all duration-500 ease-out"
         style={{ width: `${width}%` }}

@@ -14,7 +14,7 @@ interface MyDayProps {
 const PERIODS: { id: PlannedPeriod; label: string; icon: typeof Sun; time: string; gradient: string }[] = [
   { id: 'manha', label: 'Manhã', icon: Sun, time: '06:00 - 12:00', gradient: 'from-amber-400 to-orange-400' },
   { id: 'tarde', label: 'Tarde', icon: Coffee, time: '12:00 - 18:00', gradient: 'from-green-400 to-cyan-400' },
-  { id: 'noite', label: 'Noite', icon: Moon, time: '18:00 - 23:00', gradient: 'from-violet-400 to-purple-500' },
+  { id: 'noite', label: 'Noite', icon: Moon, time: '18:00 - 23:00', gradient: 'from-emerald-400 to-teal-500' },
 ];
 
 export function MyDay({ onEditTask, onNewTask }: MyDayProps) {
@@ -107,13 +107,13 @@ export function MyDay({ onEditTask, onNewTask }: MyDayProps) {
                     <p className="text-xs text-slate-400 dark:text-slate-500">{period.time}</p>
                   </div>
                 </div>
-                <span className="badge bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                <span className="badge bg-slate-100 dark:bg-[#1c1c1c] text-slate-500 dark:text-slate-400">
                   {periodTasks.length} tarefa(s)
                 </span>
               </div>
 
               {periodTasks.length === 0 ? (
-                <div className="py-6 text-center border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+                <div className="py-6 text-center border-2 border-dashed border-slate-200 dark:border-[#2a2a2a] rounded-xl">
                   <p className="text-xs text-slate-400 dark:text-slate-500">
                     Arraste tarefas para a {period.label.toLowerCase()} ou clique em "Nova"
                   </p>

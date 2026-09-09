@@ -51,7 +51,7 @@ export function ProductivityChart() {
             <span className="text-slate-500 dark:text-slate-400">Concluídas</span>
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600" />
+            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-[#303030]" />
             <span className="text-slate-500 dark:text-slate-400">Criadas</span>
           </span>
         </div>
@@ -76,7 +76,7 @@ export function ProductivityChart() {
                   )}
                 </div>
                 <div
-                  className="w-1/3 max-w-3 rounded-t-md bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500 transition-all duration-500"
+                  className="w-1/3 max-w-3 rounded-t-md bg-slate-300 dark:bg-[#303030] hover:bg-slate-400 dark:hover:bg-[#3a3a3a] transition-all duration-500"
                   style={{ height: `${createdHeight}%` }}
                 />
               </div>

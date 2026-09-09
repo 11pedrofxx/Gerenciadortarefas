@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 const NAV_ITEMS: { id: Page; label: string; icon: typeof LayoutDashboard }[] = [
-  { id: 'dashboard', label: 'Painel', icon: LayoutDashboard },
+  { id: 'dashboard', label: 'Visão Geral', icon: LayoutDashboard },
   { id: 'myday', label: 'Meu Dia', icon: Sun },
   { id: 'tasks', label: 'Tarefas', icon: ListTodo },
   { id: 'calendar', label: 'Calendário', icon: CalendarDays },
@@ -26,7 +26,7 @@ export function Sidebar({ current, onNavigate, onOpenAssistant, onNewTask }: Sid
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 h-screen sticky top-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+    <aside className="hidden lg:flex flex-col w-64 h-screen sticky top-0 border-r border-slate-200 dark:border-[#2a2a2a] bg-white dark:bg-[#0b0b0b]">
       {/* Logo */}
       <div className="px-6 py-5 flex items-center gap-2.5">
         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center shadow-md">
@@ -57,7 +57,7 @@ export function Sidebar({ current, onNavigate, onOpenAssistant, onNewTask }: Sid
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 active
                   ? 'bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300'
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#242424]'
               }`}
             >
               <Icon className="h-4.5 w-4.5 shrink-0" />
@@ -74,7 +74,7 @@ export function Sidebar({ current, onNavigate, onOpenAssistant, onNewTask }: Sid
       <div className="p-3">
         <button
           onClick={onOpenAssistant}
-          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-green-600 to-violet-600 text-white text-sm font-medium hover:shadow-lg transition-all"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white text-sm font-medium hover:shadow-lg transition-all"
         >
           <Sparkles className="h-4.5 w-4.5" />
           Assistente IA

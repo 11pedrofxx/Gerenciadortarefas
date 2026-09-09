@@ -3,6 +3,7 @@ import { CheckSquare, Mail, Lock, User, ArrowRight, Sparkles, Calendar, BarChart
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { Spinner } from '@/components/ui';
+import DotField from './DotField.jsx';
 
 type Mode = 'login' | 'signup' | 'verify' | 'reset' | 'newpassword';
 
@@ -63,7 +64,7 @@ export function AuthScreen() {
         if (error) {
           showToast(error === 'User already registered' ? 'Este e-mail já está cadastrado.' : error, 'error');
         } else {
-          showToast('Código enviado para seu e-mail!', 'success');
+          setCode('');
           setMode('verify');
         }
       } else if (mode === 'verify') {
@@ -120,7 +121,7 @@ export function AuthScreen() {
   const subtitles: Record<Mode, string> = {
     login: 'Acesse sua conta para continuar',
     signup: 'Comece a organizar suas tarefas hoje',
-    verify: `Enviamos um código de 6 dígitos para ${email}`,
+    verify: `Enviamos um código de 6 dígitos para ${email}. Digite-o abaixo para validar sua conta.`,
     reset: 'Enviaremos um link para seu e-mail',
     newpassword: 'Digite sua nova senha para acessar sua conta',
   };
@@ -134,13 +135,27 @@ export function AuthScreen() {
   };
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left panel - branding */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-green-600 via-green-700 to-violet-700 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-white blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-white blur-3xl" />
-        </div>
+    <div className="relative min-h-screen flex overflow-hidden bg-black text-white">
+      {/* Background Animado DotField */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <DotField
+          dotRadius={1.5}
+          dotSpacing={14}
+          cursorRadius={500}
+          cursorForce={0.1}
+          bulgeOnly
+          bulgeStrength={75}
+          glowRadius={100}
+          sparkle={false}
+          waveAmplitude={0}
+          gradientFrom="#16a34a"
+          gradientTo="#16a34a"
+          glowColor="#120F17"
+        />
+      </div>
+
+      {/* Painel Esquerdo - Branding */}
+      <div className="hidden lg:flex flex-1 bg-emerald-700/80 backdrop-blur-md relative z-10 overflow-hidden border-r border-white/10">
         <div className="relative z-10 flex flex-col justify-center px-16 text-white">
           <div className="flex items-center gap-3 mb-8">
             <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
@@ -178,20 +193,20 @@ export function AuthScreen() {
         </div>
       </div>
 
-      {/* Right panel - form */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-slate-50 dark:bg-slate-950">
+      {/* Painel Direito - Formulário */}
+      <div className="flex-1 flex items-center justify-center p-6 relative z-10">
         <div className="w-full max-w-sm">
           <div className="lg:hidden flex items-center gap-2.5 mb-8 justify-center">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-violet-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-600 to-emerald-500 flex items-center justify-center">
               <CheckSquare className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 dark:text-white">TaskFlow</h1>
+            <h1 className="text-xl font-bold text-white">TaskFlow</h1>
           </div>
 
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">
+          <h2 className="text-2xl font-bold text-white mb-1">
             {titles[mode]}
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 break-words">
+          <p className="text-sm text-zinc-400 mb-6 break-words">
             {subtitles[mode]}
           </p>
 
@@ -199,10 +214,10 @@ export function AuthScreen() {
             {mode === 'signup' && (
               <div>
                 <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-400" />
                   <input
                     type="text"
-                    className="input pl-11"
+                    className="input pl-11 bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500"
                     placeholder="Seu nome"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -216,10 +231,10 @@ export function AuthScreen() {
             {mode !== 'verify' && mode !== 'newpassword' && (
               <div>
                 <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-400" />
                   <input
                     type="email"
-                    className="input pl-11"
+                    className="input pl-11 bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500"
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -233,10 +248,10 @@ export function AuthScreen() {
             {(mode === 'login' || mode === 'signup') && (
               <div>
                 <div className="relative">
-                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-400" />
                   <input
                     type="password"
-                    className="input pl-11"
+                    className="input pl-11 bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -250,12 +265,12 @@ export function AuthScreen() {
             {mode === 'verify' && (
               <div>
                 <div className="relative">
-                  <ShieldCheck className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <ShieldCheck className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-400" />
                   <input
                     type="text"
                     inputMode="numeric"
                     maxLength={6}
-                    className="input pl-11 text-center text-lg tracking-[0.5em] font-semibold"
+                    className="input pl-11 text-center text-lg tracking-[0.5em] font-semibold bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500"
                     placeholder="000000"
                     value={code}
                     onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
@@ -270,10 +285,10 @@ export function AuthScreen() {
             {mode === 'newpassword' && (
               <div>
                 <div className="relative">
-                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-zinc-400" />
                   <input
                     type="password"
-                    className="input pl-11"
+                    className="input pl-11 bg-zinc-900/80 border-zinc-800 text-white placeholder-zinc-500"
                     placeholder="Nova senha"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -285,25 +300,25 @@ export function AuthScreen() {
               </div>
             )}
 
-            <button onClick={handleSubmit} disabled={loading} className="btn-primary w-full py-3">
+            <button onClick={handleSubmit} disabled={loading} className="btn-primary w-full py-3 bg-emerald-600 hover:bg-emerald-500 transition-colors">
               {loading ? <Spinner className="h-5 w-5" /> : (
                 <>
                   {buttonLabels[mode]}
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4 ml-2" />
                 </>
               )}
             </button>
           </div>
 
-          <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+          <div className="mt-6 text-center text-sm text-zinc-400">
             {mode === 'login' && (
               <>
-                <button onClick={() => setMode('reset')} className="text-green-600 dark:text-green-400 hover:underline">
+                <button onClick={() => setMode('reset')} className="text-emerald-500 hover:underline">
                   Esqueceu sua senha?
                 </button>
                 <p className="mt-3">
                   Não tem conta?{' '}
-                  <button onClick={() => setMode('signup')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
+                  <button onClick={() => setMode('signup')} className="text-emerald-500 font-medium hover:underline">
                     Cadastre-se
                   </button>
                 </p>
@@ -312,7 +327,7 @@ export function AuthScreen() {
             {mode === 'signup' && (
               <p>
                 Já tem conta?{' '}
-                <button onClick={() => setMode('login')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
+                <button onClick={() => setMode('login')} className="text-emerald-500 font-medium hover:underline">
                   Entrar
                 </button>
               </p>
@@ -321,12 +336,12 @@ export function AuthScreen() {
               <>
                 <p>
                   Não recebeu o código?{' '}
-                  <button onClick={handleResendCode} disabled={loading} className="text-green-600 dark:text-green-400 font-medium hover:underline disabled:opacity-50">
+                  <button onClick={handleResendCode} disabled={loading} className="text-emerald-500 font-medium hover:underline disabled:opacity-50">
                     Reenviar código
                   </button>
                 </p>
                 <p className="mt-3">
-                  <button onClick={() => setMode('login')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
+                  <button onClick={() => setMode('login')} className="text-emerald-500 font-medium hover:underline">
                     Voltar para login
                   </button>
                 </p>
@@ -334,7 +349,7 @@ export function AuthScreen() {
             )}
             {mode === 'reset' && (
               <p>
-                <button onClick={() => setMode('login')} className="text-green-600 dark:text-green-400 font-medium hover:underline">
+                <button onClick={() => setMode('login')} className="text-emerald-500 font-medium hover:underline">
                   Voltar para login
                 </button>
               </p>
